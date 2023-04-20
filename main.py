@@ -40,9 +40,6 @@ with open("catalogo_disciplinas.csv", 'r', encoding='UTF8') as file:
                 
                 disciplinas.append(disciplina)
                 dict[disciplina['DISCIPLINA']] = len(disciplinas) -1
-    # print(disciplinas)
-
-    # Set attributes for the graph, nodes, and edges
         name = []
         tpi = []
         cursos = []
@@ -62,17 +59,12 @@ with open("catalogo_disciplinas.csv", 'r', encoding='UTF8') as file:
                     if item['RECOMENDACOES'] in dict: 
                             edges.append((disciplinas.index(item),dict[item['RECOMENDACOES']]))
 
-        # Construct a graph with 5 vertices
         n_vertices = len(disciplinas)
         g = ig.Graph(n_vertices, edges, directed=True)
 
         g.vs["TPI"] = tpi
         g.vs["name"] = name
         g.vs["cursos"] = cursos
-
-        print()
-
-        # print(name)
 
         def get_hex(value):
             convert_string = int(value, base=16)
@@ -93,8 +85,7 @@ with open("catalogo_disciplinas.csv", 'r', encoding='UTF8') as file:
             g.vs[community]["color"] = i
             community_edges = g.es.select(_within=community)
             community_edges["color"] = i
-        # Plot in matplotlib
-        # Note that attributes can be set globally (e.g. vertex_size), or set individually using arrays (e.g. vertex_color)
+     
         fig, ax = plt.subplots(figsize=(16,9))
         g.simplify()
 
@@ -171,12 +162,5 @@ with open("catalogo_disciplinas.csv", 'r', encoding='UTF8') as file:
                     f.write(f"\t{v.name}\n")
                     f.write(f"\t\tCloseness: {v.closeness}\n")
 
-
-        # Save the graph as an image file
-        # fig.savefig('social_network.png')
         fig.savefig(f'{currentCurso}network.jpg')
         fig.savefig(f'{currentCurso}network.pdf')
-
-        # Export and import a graph as a communitiesML file.
-        # g.save("social_network.gml")
-        # g = ig.load("social_network.gml")
